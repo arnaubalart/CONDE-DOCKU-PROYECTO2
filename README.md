@@ -50,7 +50,7 @@ www.conde-docku.42web.io
     - SQL
 - Con la ayuda de Git y GitHub
 ## Versionado 📌
-La versión actual es la 1.1.5.
+La versión actual es la 1.1.6.
 ## Autores ✒️
 Trabajo realizado por: David Ortega, Ivan Aguinaga, Arnau Balart
 

@@ -8,10 +8,10 @@ try{
     echo "<script> alert('Error de conexion')</script>";
 }
 
-$host = "localhost";
-$usr = "root";
-$pwd = "";
-$db = "bd_restaurant";
+$host = SERVIDOR;
+$usr = USUARIO;
+$pwd = PASSWORD;
+$db = BD;
 
 $connection = new mysqli("$host", "$usr", "$pwd",$db);
 ?>
