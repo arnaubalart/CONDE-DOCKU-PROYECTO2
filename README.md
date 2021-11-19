@@ -32,7 +32,12 @@ En primer lugar deberemos descargarnos todos los archivos del proyecto. Para ell
 - Ivan: zxcZXC123
 - Danny: admin123
 ## Despliegue 📦
-La página está subida al hosting InfinityFree, la url es la siguiente:
+La página está subida al hosting InfinityFree.
+Para desplegar el sitio web, se ha creado una nueva base de datos con el fichero sql del proyecto, pero linkeada con el hosting.
+Para poder conectar el programa con la base de datos, se ha modificado el fichero config.php con las nuevas credenciales.
+Después he subido todos los ficheros al gestor de documentos, y ya se puede ver el proyecto subido a la red.
+
+La url es la siguiente:
 www.conde-docku.42web.io
 ## Construido con 🛠️
 - Front-End:
@@ -45,7 +50,7 @@ www.conde-docku.42web.io
     - SQL
 - Con la ayuda de Git y GitHub
 ## Versionado 📌
-La versión actual es la 1.1.4
+La versión actual es la 1.1.5.
 ## Autores ✒️
 Trabajo realizado por: David Ortega, Ivan Aguinaga, Arnau Balart
 
