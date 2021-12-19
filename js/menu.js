@@ -9,6 +9,6 @@ function closeNav() {
 
 window.onload = function() {
     var count = document.getElementById('count').value;
-    document.getElementById('count2').innerHTML = "Se han encontrado " + count + " mesas";
+    document.getElementById('count2').innerHTML = "S'han trobat " + count + " taules";
 
 }

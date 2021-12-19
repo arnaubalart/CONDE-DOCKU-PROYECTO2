@@ -50,7 +50,7 @@ www.conde-docku.42web.io
     - SQL
 - Con la ayuda de Git y GitHub
 ## Versionado 📌
-La versión actual es la 1.1.7. ya que es la versión estable número 1 (1.0.0), se ha añadido la funcionalidad del extra (1.1.0) y se han realizado 7 bugfixes (1.1.7.)
+La versión actual es la 2.0.7. ya que es la versión estable número 1 (1.0.0), no se ha añadido ninguna funcionalidad extra (1.0.0) y se han realizado 7 bugfixes (1.1.7.)
 ## Autores ✒️
 Trabajo realizado por: David Ortega, Ivan Aguinaga, Arnau Balart
 

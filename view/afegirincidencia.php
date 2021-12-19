@@ -22,8 +22,7 @@ if (isset($_SESSION['username'])){
   <a href="../processes/logout.proc.php">Logout</a>
 </div>
 <div class="msgopen">
-
-<button class="openbtn" onclick="openNav()">&#9776;</button>
+    <button class="openbtn" onclick="openNav()">&#9776;</button>
 </div>
 <div class="titulo-incidencia">
     <h1>Crear incidència</h1>

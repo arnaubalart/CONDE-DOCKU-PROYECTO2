@@ -78,12 +78,8 @@ if (isset($_SESSION['username'])){
           </div>
           <br>
           <div>
-            <label for="estado" class="fuente">Estat de la taula</label>
-            <select name="estado" id="estado">
-                <option value="ambas" selected>Ambdues</option>
-                <option value="1">Reservada</option>
-                <option value="0">Lliure</option>
-            </select>
+            <label for="datetime" class="fuente">Dia i hora de la reserva</label>
+            <input type="datetime-local" name="datetime">
           </div>
           <br>
           <div>
@@ -91,13 +87,14 @@ if (isset($_SESSION['username'])){
           </div>
       </form>
     </div>
-    <div class="mostrar-mesas">
-      <?php
+    <?php
       if(!isset($_POST['enviarfiltro'])){
-        $stmt=$pdo->prepare("SELECT t.num_taula, t.num_llocs_taula, t.id_sala, t.estat_taula, s.nom_sala from tbl_taula t inner join tbl_sala s on t.id_sala=s.id_sala order by t.estat_taula, t.num_taula;");
+        $stmt=$pdo->prepare("SELECT t.num_taula, t.num_llocs_taula, t.id_sala, s.nom_sala from tbl_taula t inner join tbl_sala s on t.id_sala=s.id_sala order by t.num_taula;");
         $stmt->execute();
-        $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);    
+        $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        $auto=1;    
       }else{
+        $auto=0;
             //000
           if(($_POST['estado']=='ambas') && ($_POST['num_taula']=="*") && $_POST['sala']=='*'){
               $stmt=$pdo->prepare("SELECT t.num_taula, t.num_llocs_taula, t.id_sala, t.estat_taula, s.nom_sala from tbl_taula t inner join tbl_sala s on t.id_sala=s.id_sala order by t.estat_taula, t.num_taula;");
@@ -140,20 +137,64 @@ if (isset($_SESSION['username'])){
             $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);                
           }
       }
-      foreach ($listamesas as $mesa) {
-
-        ?>
+      ?>
+    <div class="mostrar-mesas">
+      <div class="titulo">
+        <h2><?php 
+              if ($auto==1) {
+                $hora=date("H");
+                $dia=date("d");
+                $horacomplet=date("H:m");
+                $diacomplet=date("d-m-Y");
+                $diacompletangles=date("Y-m-d");
+              }else{
+                $hora=date("H", strtotime($_POST['datetime']));
+                $dia=strftime('%d', strtotime($_POST['datetime']));
+                $diacomplet=strftime('%d/%m/%Y', strtotime($_POST['datetime']));
+                $diacompletangles=strftime('%Y/%m/%d', strtotime($_POST['datetime']));
+                $horacomplet=date("H:i:s", strtotime($_POST['datetime']));
+              }
+              echo "Taules el dia ".$diacomplet.", a les  ".$hora.":00";
+            ?>
+        </h2>
+      </div>
+            <?php
+              foreach ($listamesas as $mesa) {
+                $stmt=$pdo->prepare('SELECT r.data_ini_reserva, r.data_fi_reserva, r.cancelacio_reserva, t.num_taula from tbl_reserva r inner join tbl_taula t on t.num_taula=r.num_taula where t.num_taula='.$mesa['num_taula'].' and r.cancelacio_reserva=0 and r.data_ini_reserva<"'.$diacompletangles."+".$horacomplet.'" and r.data_fi_reserva>"'.$diacompletangles."+".$horacomplet.'"');
+                $stmt->execute();
+                $num_dates = $stmt->fetchColumn();
+            ?>
         <div class="mesa">
           <div class="parte-mesa">
             <?php 
-              if($mesa['estat_taula']==0){
+              /* if($dia!=strftime('%d', strtotime($mesa['data_ini_reserva']))){
+                $estado=0;
                 ?>
-                <img class="tamanoimagen" width="100%" src="../img/silla_verde.png" alt="logomesa_libre">
+                  <img class="tamanoimagen" width="100%" src="../img/silla_verde.png" alt="logomesa_libre">
                 <?php
               }else{
+                if ($hora<date("H", strtotime($mesa['data_ini_reserva'])) or $hora>=date("H", strtotime($mesa['data_fi_reserva']))) {
+                  $estado=0;
+                  ?>
+                    <img class="tamanoimagen" width="100%" src="../img/silla_verde.png" alt="logomesa_libre">
+                  <?php
+                }else{
+                  $estado=1;
+                  ?>
+                    <img class="tamanoimagen2" width="100%" src="../img/silla_roja.png" alt="logomesa">
+                  <?php
+                }
+              } */
+              if ($num_dates>0) {
                 ?>
-                <img class="tamanoimagen2" width="100%" src="../img/silla_roja.png" alt="logomesa">
+                  <img class="tamanoimagen2" width="100%" src="../img/silla_roja.png" alt="logomesa">
                 <?php
+                $estado=1;
+              }else{
+                ?>
+                  <img class="tamanoimagen" width="100%" src="../img/silla_verde.png" alt="logomesa_libre">
+                <?php    
+                $estado=0;            
               }
             ?>
           </div>
@@ -162,7 +203,7 @@ if (isset($_SESSION['username'])){
             <h6><?php echo "<br>Sala: ".$mesa['nom_sala']; ?></h6>
             <h6><?php echo "<br>Num. de llocs: ".$mesa['num_llocs_taula']; ?></h6>
             <h6><?php 
-            if($mesa['estat_taula']==1){
+            if($estado==1){
               echo "<br>Estat de la taula: <span class='estat-taula-reservada'>Reservada</span></h6>";
             }else{
               echo "<br>Estat de la taula: <span class='estat-taula-lliure'>Lliure</span></h6>";
@@ -183,10 +224,10 @@ if (isset($_SESSION['username'])){
                     echo "<button type='button' class='boton uno' id='boto-incidencia' onclick='window.location.href=`../processes/treureincidencia.php?num_taula=".$mesa['num_taula']."`'><span>Treure incidència</span></button>";
                   }
                 }else{
-                  if($mesa['estat_taula']==1){
-                    echo "<button type='button' class='boton uno' onclick='window.location.href=`../processes/home2.php?num_taula=".$mesa['num_taula']."&estat_taula=".$mesa['estat_taula']."`'><span>ALLIBERAR</span></button>";
+                  if($estado==1){
+                    echo "<button type='button' class='boton uno' onclick='window.location.href=`../processes/home2.php?num_taula=".$mesa['num_taula']."`'><span>ALLIBERAR</span></button>";
                   }else{
-                    echo "<button type='button' class='boton dos' onclick='window.location.href=`../processes/home2.php?num_taula=".$mesa['num_taula']."&estat_taula=".$mesa['estat_taula']."`'><span>RESERVAR</span></button>";
+                    echo "<button type='button' class='boton dos' onclick='window.location.href=`./calendari.php?num_taula=".$mesa['num_taula']."`'><span>RESERVAR</span></button>";
                   }
                 }
 

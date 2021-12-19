@@ -7,11 +7,4 @@ try{
     echo $e->getMessage();
     echo "<script> alert('Error de conexion')</script>";
 }
-
-$host = SERVIDOR;
-$usr = USUARIO;
-$pwd = PASSWORD;
-$db = BD;
-
-$connection = new mysqli("$host", "$usr", "$pwd",$db);
 ?>
