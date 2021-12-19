@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Zen Antique', serif;
 }
 
 body {
@@ -17,17 +18,13 @@ body {
 h1 {
     color: white;
     font-family: 'Zen Antique', serif;
-    width: 18%;
     font-size: 20px;
-    padding: 0 20px;
 }
 
 h2 {
     color: white;
     font-family: 'Zen Antique', serif;
-    width: 15%;
     font-size: 20px;
-    padding: 0 20px;
 }
 
 h3 {
@@ -145,25 +142,41 @@ h6 {
 }
 
 .titulo-incidencia {
-    position: fixed;
-    left: 43%;
-    top: 35%;
-    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .titulo-incidencia>h1 {
-    font-size: 28px;
+    font-size: 50px;
+    backdrop-filter: blur(10px);
 }
 
 .form-incidencia {
-    position: fixed;
-    left: 45%;
-    top: 45%;
     background: #22142b;
     color: white;
     font-weight: lighter;
     padding: 15px;
     border: 3px solid #3b4652;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 10%;
+    align-items: center;
+}
+
+.form-incidencia>* {
+    margin: 10px 0;
+}
+
+.form-incidencia>input,
+textarea,
+select {
+    padding: 7px;
+    border-radius: 5px;
+    width: 50%;
 }
 
 
@@ -268,6 +281,10 @@ input[type=submit] {
     border-radius: 10px;
     margin: 0 0 25px;
     opacity: 0.95;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .mostrar-mesas .mesa {
@@ -436,3 +453,36 @@ td>* {
 
 
 /*-------------*/
+
+.cuerpo_reserva {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+    padding: 0 5%;
+    margin-bottom: 5%;
+}
+
+.container-incidencia {
+    width: 50%;
+}
+
+.foto_sala {
+    width: 50%;
+    background-color: #a87c2ad5;
+    padding: 10px;
+}
+
+.titol_sala>h2 {
+    font-size: 50px;
+    backdrop-filter: blur(10px);
+}
+
+.rojo {
+    color: red;
+}
+
+.verde {
+    color: green;
+}
