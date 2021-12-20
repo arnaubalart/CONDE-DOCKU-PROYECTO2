@@ -73,28 +73,28 @@ if (isset($_SESSION['username'])){
   <div class="mostrar-mesashistorial">
     <?php
     if(!isset($_POST['enviarfiltro'])){
-      $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_reserva, r.data_alliberament_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala order by r.id_reserva;");
+      $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_ini_reserva, r.data_fi_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala order by r.id_reserva;");
       $stmt->execute();
       $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);    
     }else{
           //000
         if(($_POST['num_taula']=="*") && $_POST['sala']=='*'){
-            $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_reserva, r.data_alliberament_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala order by r.id_reserva;");
+            $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_ini_reserva, r.data_fi_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala order by r.id_reserva;");
             $stmt->execute();
             $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);  
         }//010
         elseif(($_POST['num_taula']!="*") && ($_POST['sala']=='*')){
-          $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_reserva, r.data_alliberament_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala where t.num_taula='".$_POST['num_taula']."' order by r.id_reserva;");
+          $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_ini_reserva, r.data_fi_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala where t.num_taula='".$_POST['num_taula']."' order by r.id_reserva;");
           $stmt->execute();
           $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);     
         }//011
         elseif(($_POST['num_taula']!="*") && ($_POST['sala']!='*')){
-          $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_reserva, r.data_alliberament_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala where t.num_taula='".$_POST['num_taula']."' and s.nom_sala='".$_POST['sala']."' order by r.id_reserva;");
+          $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_ini_reserva, r.data_fi_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala where t.num_taula='".$_POST['num_taula']."' and s.nom_sala='".$_POST['sala']."' order by r.id_reserva;");
           $stmt->execute();
           $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);     
         }//001
         elseif(($_POST['num_taula']=="*") && ($_POST['sala']!='*')){
-          $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_reserva, r.data_alliberament_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala where s.nom_sala='".$_POST['sala']."' order by r.id_reserva;");
+          $stmt=$pdo->prepare("SELECT r.id_reserva, t.num_taula, t.num_llocs_taula, t.id_sala, r.data_ini_reserva, r.data_fi_reserva, s.nom_sala from tbl_taula t inner join tbl_reserva r on t.num_taula=r.num_taula inner join tbl_sala s on t.id_sala=s.id_sala where s.nom_sala='".$_POST['sala']."' order by r.id_reserva;");
           $stmt->execute();
           $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);  
         }
@@ -105,8 +105,8 @@ if (isset($_SESSION['username'])){
           <th>Núm. taula</th>
           <th>Sala</th>
           <th>Núm. llocs taula</th>
-          <th>Data reserva</th>
-          <th>Data alliberament</th>
+          <th>Data inici reserva</th>
+          <th>Data fi reserva</th>
         </tr>
       
     <?php
@@ -125,15 +125,10 @@ if (isset($_SESSION['username'])){
           <h6 class="h6historial"><?php echo $mesa['num_llocs_taula']; ?></h6>
         </td>
         <td>
-          <h6 class="h6historial"><?php echo strftime("%A, %d de %B del %Y", strtotime($mesa['data_reserva']))." a las ".date("H:i:s", strtotime($mesa['data_reserva']));?>
+          <h6 class="h6historial"><?php echo strftime("%A, %d de %B del %Y", strtotime($mesa['data_ini_reserva']))." a las ".date("H:i:s", strtotime($mesa['data_ini_reserva']));?>
         </td>
         <td>
-          <h6 class="h6historial"><?php 
-          if (strftime("%Y", strtotime($mesa['data_alliberament_reserva']))==1970){
-            echo "Taula reservada actualment";
-          }else{echo strftime("%A, %d de %B del %Y", strtotime($mesa['data_alliberament_reserva']))." a las ".date("H:i:s", strtotime($mesa['data_alliberament_reserva']));
-          }
-          ?>
+        <h6 class="h6historial"><?php echo strftime("%A, %d de %B del %Y", strtotime($mesa['data_fi_reserva']))." a las ".date("H:i:s", strtotime($mesa['data_fi_reserva']));?>
         </td>
       </tr>
       <?php
