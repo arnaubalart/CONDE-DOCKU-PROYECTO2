@@ -131,14 +131,19 @@ h6 {
     left: 0;
 }
 
-#boto-incidencia {
-    height: 50px !important;
-}
-
 .boton-afegir-incidencia {
     position: absolute;
     left: 23%;
     top: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton-afegir-incidencia>* {
+    height: fit-content;
+    margin-left: 10px;
+    padding: 10px;
 }
 
 .titulo-incidencia {
@@ -485,4 +490,9 @@ td>* {
 
 .verde {
     color: green;
+}
+
+.btn_home {
+    width: 15rem;
+    height: fit-content;
 }
