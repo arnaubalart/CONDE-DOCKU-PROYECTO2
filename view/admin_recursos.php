@@ -15,7 +15,7 @@ if (isset($_SESSION['username'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <script type="text/javascript" src="../js/menu.js"></script>
-    <title>Afegir Reserva</title>
+    <title>Administrar recursos</title>
 </head>
 <body>
 <div id="mySidepanel" class="sidepanel">
@@ -28,15 +28,15 @@ if (isset($_SESSION['username'])){
 <button class="openbtn" onclick="openNav()">&#9776;</button>
 </div>
 <div class="boton-afegir-incidencia">
-    <button type='button' class='boton uno' id='boto-incidencia' onclick='window.location.href=`crear_usuari.php`'><span>Crear usuari</span></button>
+    <button type='button' class='boton uno' id='boto-incidencia' onclick='window.location.href=`afegir_taula.php`'><span>Afegir taula</span></button>
 </div>
-<div class="titulo-incidencia">
-    <h1>Administració d'usuaris</h1>
+<div class="titulo-administracion">
+    <h1>Administració de recursos (taules)</h1>
 </div>
 <div class="mensaje">
     <?php 
         if (isset($_GET['error'])) {
-            echo "<p class='rojo' style='text-align:center;margin-top:2.5%;'>No pots eliminar-te a tú mateix!</p>";
+            echo "<p class='rojo' style='text-align:center;margin-top:2.5%;'>ERROR</p>";
         }
     ?>
 </div>
@@ -44,10 +44,9 @@ if (isset($_SESSION['username'])){
   <div class="mostrar-mesashistorial">
       <table class="historial_reservas">
         <tr>
-          <th>ID</th>
-          <th>Nom</th>
-          <th>Cognom</th>
-          <th>Tipus</th>
+          <th>Nombre taula</th>
+          <th>Nombre de llocs</th>
+          <th>Sala</th>
           <th></th>
           <th></th>
         </tr>
@@ -57,36 +56,33 @@ if (isset($_SESSION['username'])){
     try{
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->beginTransaction();
-        $stmt=$pdo->prepare('SELECT id_usuari, nom_usuari, cognom_usuari, tipus_usuari from tbl_usuari;');
+        $stmt=$pdo->prepare('SELECT t.num_taula, t.num_llocs_taula, s.foto_sala, s.id_sala from tbl_taula t inner join tbl_sala s on t.id_sala=s.id_sala order by t.num_taula;');
         $stmt->execute();
-        $usuaris=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        $taules=$stmt->fetchAll(PDO::FETCH_ASSOC);
         $pdo->commit();
     }catch(Exception $e){
         $pdo->rollBack();
         echo "Fallo: " . $e->getMessage();
     }
 
-    foreach ($usuaris as $usuari) {
+    foreach ($taules as $taula) {
 
       ?>
       <tr class="registro-historial">
         <td>
-          <h4 class="h4historial"><?php echo $usuari['id_usuari']; ?></h4>
+          <h4 class="h4historial"><?php echo $taula['num_taula']; ?></h4>
         </td>
         <td>
-          <h6 class="h6historial"><?php echo $usuari['nom_usuari']; ?></h6>
+          <h6 class="h6historial"><?php echo $taula['num_llocs_taula']; ?></h6>
         </td>  
         <td>
-          <h6 class="h6historial"><?php echo $usuari['cognom_usuari']; ?></h6>
+          <h6 class="h6historial"><?php echo "<img width='50%' src='../img/".$taula['foto_sala']."'>"; ?></h6>
         </td>
         <td>
-        <h6 class="h6historial"><?php echo $usuari['tipus_usuari']; ?></h6>
+          <h6 class="h6historial"><button onclick='window.location.href=`./modificar_recurs.php?num_taula=<?php echo $taula["num_taula"]; ?>`'>Modificar</button></h6>
         </td>
         <td>
-          <h6 class="h6historial"><button onclick='window.location.href=`./modificar_usuari.php?id_usuari=<?php echo $usuari["id_usuari"]; ?>`'>Modificar</button></h6>
-        </td>
-        <td>
-          <h6 class="h6historial"><button onclick='window.location.href=`../processes/eliminar_usuari.php?id_usuari=<?php echo $usuari["id_usuari"]; ?>`'>Eliminar</button></h6>
+          <h6 class="h6historial"><button onclick='window.location.href=`../processes/eliminar_recurs.php?num_taula=<?php echo $taula["num_taula"]; ?>`'>Eliminar</button></h6>
         </td>
       </tr>
       <?php

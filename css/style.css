@@ -154,7 +154,21 @@ h6 {
     text-align: center;
 }
 
+.titulo-administracion {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 10vh;
+}
+
 .titulo-incidencia>h1 {
+    font-size: 50px;
+    backdrop-filter: blur(10px);
+}
+
+.titulo-administracion>h1 {
     font-size: 50px;
     backdrop-filter: blur(10px);
 }
@@ -495,4 +509,7 @@ td>* {
 .btn_home {
     width: 15rem;
     height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
