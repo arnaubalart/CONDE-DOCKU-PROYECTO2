@@ -32,9 +32,16 @@ if (isset($_SESSION['username'])){
 <br>
 <h2 id='count2'></h2>
 <div class="boton-afegir-incidencia">
+  <?php
+    if($_SESSION['tipus_usuari']=="administrador"){
+      ?>
+      <button type='button' class='boton uno' id='boto-usuaris' onclick='window.location.href=`admin_usuaris.php`'><span>Administrar usuaris</span></button>
+      <button type='button' class='boton uno' id='boto-recursos' onclick='window.location.href=`admin_recursos.php`'><span>Administrar recursos</span></button>
+    <?php
+    }
+  ?>
 <button type='button' class='boton uno' id='boto-incidencia' onclick='window.location.href=`afegirincidencia.php`'><span>Afegir incidència</span></button>
-<button type='button' class='boton uno' id='boto-usuaris' onclick='window.location.href=`admin_usuaris.php`'><span>Administrar usuaris</span></button>
-<button type='button' class='boton uno' id='boto-recursos' onclick='window.location.href=`admin_recursos.php`'><span>Administrar recursos</span></button>
+
 </div>
 <div class="cuerpo-home">
   <div class="container-filtros">
@@ -90,7 +97,7 @@ if (isset($_SESSION['username'])){
       </form>
     </div>
     <?php
-      if(!isset($_POST['enviarfiltro'])){
+/*       if(!isset($_POST['enviarfiltro'])){
         $stmt=$pdo->prepare("SELECT t.num_taula, t.num_llocs_taula, t.id_sala, s.nom_sala from tbl_taula t inner join tbl_sala s on t.id_sala=s.id_sala order by t.num_taula;");
         $stmt->execute();
         $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -138,12 +145,27 @@ if (isset($_SESSION['username'])){
             $stmt->execute();
             $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC);                
           }
+      } */
+      $queryGeneral="SELECT t.num_taula, t.num_llocs_taula, t.id_sala, s.nom_sala from tbl_taula t inner join tbl_sala s on t.id_sala=s.id_sala where t.num_taula like '%%'";
+
+      if(isset($_POST['num_taula']) and $_POST['num_taula']!="*"){
+        $num_taula = $_POST['num_taula'];
+        $query2 = "AND t.num_taula = $num_taula";
+        $queryGeneral = $queryGeneral.$query2;
       }
-      ?>
+      if(isset($_POST['sala']) and $_POST['sala']!="*"){
+        $sala = $_POST['sala'];
+        $query2 = "AND s.nom_sala = '$sala'";
+        $queryGeneral = $queryGeneral.$query2;
+      }
+      $stmt=$pdo->prepare($queryGeneral." order by t.num_taula;");
+      $stmt->execute();
+      $listamesas=$stmt->fetchAll(PDO::FETCH_ASSOC); 
+    ?>
     <div class="mostrar-mesas">
       <div class="titulo">
         <h2><?php 
-              if ($auto==1) {
+              if (empty($_POST['datetime'])) {
                 $hora=date("H");
                 $dia=date("d");
                 $horacomplet=date("H:m");
