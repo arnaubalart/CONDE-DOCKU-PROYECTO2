@@ -32,7 +32,9 @@ if (isset($_SESSION['username'])){
 <br>
 <h2 id='count2'></h2>
 <div class="boton-afegir-incidencia">
-  <button type='button' class='boton uno' id='boto-incidencia' onclick='window.location.href=`afegirincidencia.php`'><span>Afegir incidència</span></button>
+<button type='button' class='boton uno' id='boto-incidencia' onclick='window.location.href=`afegirincidencia.php`'><span>Afegir incidència</span></button>
+<button type='button' class='boton uno' id='boto-usuaris' onclick='window.location.href=`admin_usuaris.php`'><span>Administrar usuaris</span></button>
+<button type='button' class='boton uno' id='boto-recursos' onclick='window.location.href=`admin_recursos.php`'><span>Administrar recursos</span></button>
 </div>
 <div class="cuerpo-home">
   <div class="container-filtros">
