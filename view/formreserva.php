@@ -3,6 +3,10 @@ include '../services/conexion.php';
 session_start();
 if (isset($_SESSION['username']) and isset($_REQUEST['data']) and isset($_REQUEST['num_taula'])){
 
+    $dia=strftime('%d', strtotime($_REQUEST['data']));
+    $diacomplet=strftime('%d/%m/%Y', strtotime($_REQUEST['data']));
+    $diacompletangles=strftime('%Y/%m/%d', strtotime($_REQUEST['data']));
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -61,10 +65,20 @@ if (isset($_SESSION['username']) and isset($_REQUEST['data']) and isset($_REQUES
             <label for="hora">Hora</label>
             <select name="hora" required>
                 <?php
-                    for ($i=13; $i <= 22; $i++) { 
+                    for ($i=13; $i <= 22; $i++) {
+                        $horacomplet="$i:00:00";
+                        $stmt=$pdo->prepare('SELECT r.data_ini_reserva, r.data_fi_reserva, r.cancelacio_reserva, t.num_taula from tbl_reserva r inner join tbl_taula t on t.num_taula=r.num_taula where t.num_taula='.$_REQUEST['num_taula'].' and r.cancelacio_reserva=0 and r.data_ini_reserva<="'.$diacompletangles."+".$horacomplet.'" and r.data_fi_reserva>"'.$diacompletangles."+".$horacomplet.'";');
+                        $stmt->execute();
+                        $num_dates = $stmt->fetchColumn();
+                        if($num_dates>0){
+                          ?>
+                          <option value="<?php echo $i; ?>" disabled><?php echo $i.":00"; ?></option> 
+                          <?php
+                        }else{
                         ?>
                         <option value="<?php echo $i; ?>"><?php echo $i.":00"; ?></option>
                         <?php
+                        }
                     }
                 ?>
             </select>
@@ -79,6 +93,9 @@ if (isset($_SESSION['username']) and isset($_REQUEST['data']) and isset($_REQUES
             <input type="hidden" name="data" value="<?php echo $_REQUEST['data'] ?>">
             <input type="submit" value="Reservar" name="enviar">
         </form>
+    </div>
+    <div class="btn_home">
+        <button type='button' class='boton uno' id='' onclick='window.location.href=`home.php`'><span>Tornar a la home</span></button>
     </div>
 </div>
 <?php

@@ -96,7 +96,7 @@ if (isset($_SESSION['username'])){
   </div>
   <div class="btn_home">
     <button type='button' class='boton uno' id='' onclick='window.location.href=`home.php`'><span>Tornar a la home</span></button>
-</div>
+  </div>
 </div>
 <?php
 }else{
