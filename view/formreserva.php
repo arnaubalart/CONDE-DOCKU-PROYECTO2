@@ -7,6 +7,11 @@ if (isset($_SESSION['username']) and isset($_REQUEST['data']) and isset($_REQUES
     $diacomplet=strftime('%d/%m/%Y', strtotime($_REQUEST['data']));
     $diacompletangles=strftime('%Y/%m/%d', strtotime($_REQUEST['data']));
 
+    $hora_actual=date("H");
+    $dia_actual=date("d");
+    $horacomplet_actual=date("H:m");
+    $diacomplet_actual=date("d-m-Y");
+    $diacompletangles_actual=date("Y-m-d");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -75,9 +80,23 @@ if (isset($_SESSION['username']) and isset($_REQUEST['data']) and isset($_REQUES
                           <option value="<?php echo $i; ?>" disabled><?php echo $i.":00"; ?></option> 
                           <?php
                         }else{
+                            if ($dia<$dia_actual) {
                         ?>
                         <option value="<?php echo $i; ?>"><?php echo $i.":00"; ?></option>
                         <?php
+                            }else{
+                                if ($dia==$dia_actual) {
+                                    if ($hora_actual>$i) {
+                                        ?>
+                                        <option value="<?php echo $i; ?>" disabled><?php echo $i.":00"; ?></option> 
+                                        <?php
+                                    }
+                                }else{
+                                    ?>
+                                    <option value="<?php echo $i; ?>"><?php echo $i.":00"; ?></option>
+                                    <?php
+                                }
+                            }
                         }
                     }
                 ?>

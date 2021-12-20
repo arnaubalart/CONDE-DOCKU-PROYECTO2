@@ -24,13 +24,14 @@ En primer lugar deberemos descargarnos todos los archivos del proyecto. Para ell
 
 #### Para acceder:
 ###### Hay dos tipos de usuarios:
-- David, Arnau, Ivan (inicial en mayúsculas) --> Camareros
+- David, Ivan (inicial en mayúsculas) --> Camareros
 - Danny (inicial en mayúsculas) --> Mantenimiento
+- Jaime (Inicial en mayúsculas) --> Administrador
 ###### Contraseñas:
 - David: qweQWE123
-- Arnau: asdASD123
 - Ivan: zxcZXC123
 - Danny: admin123
+- Jaime: 1234
 ## Despliegue 📦
 La página está subida al hosting InfinityFree.
 Para desplegar el sitio web, se ha creado una nueva base de datos con el fichero sql del proyecto, pero linkeada con el hosting.
@@ -50,7 +51,7 @@ www.conde-docku.42web.io
     - SQL
 - Con la ayuda de Git y GitHub
 ## Versionado 📌
-La versión actual es la 2.0.7. ya que es la versión estable número 1 (1.0.0), no se ha añadido ninguna funcionalidad extra (1.0.0) y se han realizado 7 bugfixes (1.1.7.)
+La versión actual es la 2.0.20. ya que es la versión estable número 1 (1.0.0), no se ha añadido ninguna funcionalidad extra (1.0.0) y se han realizado 20 bugfixes (1.1.20.)
 ## Autores ✒️
 Trabajo realizado por: David Ortega, Ivan Aguinaga, Arnau Balart
 
