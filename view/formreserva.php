@@ -90,6 +90,10 @@ if (isset($_SESSION['username']) and isset($_REQUEST['data']) and isset($_REQUES
                                         ?>
                                         <option value="<?php echo $i; ?>" disabled><?php echo $i.":00"; ?></option> 
                                         <?php
+                                    }else{
+                                        ?>
+                                        <option value="<?php echo $i; ?>"><?php echo $i.":00"; ?></option>
+                                        <?php
                                     }
                                 }else{
                                     ?>
